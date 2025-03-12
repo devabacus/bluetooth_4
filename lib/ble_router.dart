@@ -1,8 +1,9 @@
+import 'package:bluetooth_4/ble_communication.dart';
+import 'package:bluetooth_4/scan_page.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter/material.dart';
 
 const tStyle = TextStyle(fontSize: 20);
-
 
 class BleRouter extends StatefulWidget {
   const BleRouter({super.key});
@@ -14,13 +15,23 @@ class BleRouter extends StatefulWidget {
 class _HomeState extends State<BleRouter> {
   BluetoothDevice? device;
   BluetoothConnectionState? connState;
+  bool isConnecting = true;
 
   Future<void> tryAutoConnect(String deviceId) async {
+    setState(() {
+      isConnecting = true;
+    });
+
+    if (device != null) {
+      await device!.disconnect();
+    }
     device = BluetoothDevice.fromId(deviceId);
+
     await device!.connect();
     device!.connectionState.listen((state) {
       setState(() {
         connState = state;
+        isConnecting = false;
       });
     });
   }
@@ -31,33 +42,25 @@ class _HomeState extends State<BleRouter> {
     super.initState();
   }
 
-
   @override
   void dispose() {
     device?.disconnect();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.disabled_by_default),
-            onPressed: () => device!.disconnect(),
-          ),
-          IconButton(
-            icon: Icon(Icons.expand),
-            onPressed: () => device!.connect(),
-          ),
-
-        ],
-      ),
       body: Center(
-        child: Text("$connState", style: tStyle),
+        child:
+            isConnecting
+                ? CircularProgressIndicator()
+                : connState == BluetoothConnectionState.connected
+                ? CommunicationPage(device: device!,)
+                : ScanPage(),
       ),
     );
   }
 }
+
+
