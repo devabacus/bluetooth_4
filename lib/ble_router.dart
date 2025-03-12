@@ -15,23 +15,20 @@ class BleRouter extends StatefulWidget {
 class _HomeState extends State<BleRouter> {
   BluetoothDevice? device;
   BluetoothConnectionState? connState;
-  bool isConnecting = true;
 
   Future<void> tryAutoConnect(String deviceId) async {
-    setState(() {
-      isConnecting = true;
-    });
-
-    if (device != null) {
-      await device!.disconnect();
-    }
+    connState = BluetoothConnectionState.disconnected;
     device = BluetoothDevice.fromId(deviceId);
 
-    await device!.connect();
+    try {
+      await device!.connect();
+    } catch (e) {
+      print(e);
+    }
+
     device!.connectionState.listen((state) {
       setState(() {
         connState = state;
-        isConnecting = false;
       });
     });
   }
@@ -53,14 +50,10 @@ class _HomeState extends State<BleRouter> {
     return Scaffold(
       body: Center(
         child:
-            isConnecting
-                ? CircularProgressIndicator()
-                : connState == BluetoothConnectionState.connected
-                ? CommunicationPage(device: device!,)
-                : ScanPage(),
+            connState == BluetoothConnectionState.disconnected
+                ? ScanPage()
+                : CommunicationPage(device: device!),
       ),
     );
   }
 }
-
-
