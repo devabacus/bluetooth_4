@@ -9,21 +9,10 @@ flutter pub add flutter_riverpod riverpod_annotation hooks_riverpod freezed_anno
 flutter pub add --dev riverpod_generator build_runner custom_lint riverpod_lint freezed json_serializable
 
 
+flutter pub add flutter_blue_plus
+flutter pub add permission_handler
+flutter pub add shared_preferences
 
-flutter pub add flutter_riverpod
-flutter pub add riverpod_annotation
-flutter pub add dev:riverpod_generator
-flutter pub add dev:build_runner
-flutter pub add dev:custom_lint
-flutter pub add dev:riverpod_lint
-flutter pub add hooks_riverpod
-
-flutter pub add freezed_annotation
-flutter pub add dev:build_runner
-flutter pub add dev:freezed
-
-flutter pub add json_annotation
-flutter pub add dev:json_serializable
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
