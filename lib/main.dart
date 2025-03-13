@@ -1,9 +1,10 @@
 import 'package:bluetooth_4/ble_router.dart';
+import 'package:bluetooth_4/riverpod/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(ProviderScope(observers: [MyObserver()], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +16,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class Home extends ConsumerWidget {
   const Home({super.key});
 
@@ -24,5 +24,3 @@ class Home extends ConsumerWidget {
     return BleRouter();
   }
 }
-
-

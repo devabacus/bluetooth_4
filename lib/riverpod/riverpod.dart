@@ -35,6 +35,7 @@ FutureOr<BluetoothDevice?> device(Ref ref) {
 
 @riverpod
 FutureOr<BluetoothDevice?> connectDevice(Ref ref) async {
+  ref.watch(connectionStateProvider);
   final deviceValue = ref.watch(deviceProvider);
   return deviceValue.when(
     data: (device) async {
@@ -55,6 +56,7 @@ FutureOr<BluetoothDevice?> connectDevice(Ref ref) async {
 @riverpod
 Stream<BluetoothConnectionState> connectionState(Ref ref) {
   final deviceValue = ref.watch(deviceProvider);
+  
   Stream<BluetoothConnectionState> disconnect = Stream.value(
     BluetoothConnectionState.disconnected,
   );

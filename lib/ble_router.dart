@@ -25,12 +25,14 @@ class _BleRouterState extends ConsumerState<BleRouter> {
     ref.watch(connectDeviceProvider);
     final connectionState = ref.watch(connectionStateProvider);
 
-    return Scaffold(body: Center(
-      child: connectionState.when(
-          data: (state) => Text(state.toString(), style: tStyle,),
+    return Scaffold(
+      body: Center(
+        child: connectionState.when(
+          data: (state) => Text(state.toString(), style: tStyle),
           error: (_, __) => Text("Error"),
           loading: () => CircularProgressIndicator(),
+        ),
       ),
-    ),);
+    );
   }
 }
