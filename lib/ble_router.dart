@@ -22,8 +22,9 @@ class _BleRouterState extends ConsumerState<BleRouter> {
 
   @override
   Widget build(BuildContext context) {
-    final connectedDevice = ref.watch(connectDeviceProvider);
+    ref.watch(connectDeviceProvider);
     final connectionState = ref.watch(connectionStateProvider);
+
     return Scaffold(body: Center(
       child: connectionState.when(
           data: (state) => Text(state.toString(), style: tStyle,),
